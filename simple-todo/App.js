@@ -6,8 +6,11 @@ import {
   FlatList,
   Image,
   Dimensions,
+  StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 export default class App extends Component {
   constructor () {
@@ -51,59 +54,113 @@ export default class App extends Component {
       >
         {isLoading
           ? <ActivityIndicator />
-          : <FlatList
-              data={threds}
-              renderItem={({item}) => {
+          : <SwipeListView
+              useFlatList
+              data={this.state.threds}
+              renderItem={({item}, rowMap) => {
                 return (
-                  <View
+                  <View style={styles.rowFront}>
+                  <Text
                     style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      width: '100%',
+                      width: width,
+                      height: 50
                     }}
                   >
-                    <Image
-                      style={{
-                        width: 50,
-                        height: 50,
-                      }}
-                      source={{
-                        uri: item.data.thumbnail,
-                      }}
-                    />
-
-                    <View
-                      style={{
-                        width: width - 50,
-                      }}
-                    >
-                      <View
-                        style={{
-                          flex: 1,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            width: width - 50,
-                          }}
-                        >
-                          {item.data.title}
-                        </Text>
-                        <Text
-                          style={{
-                            color: '#ababab',
-                            fontSize: 10,
-                          }}
-                        >
-                          {item.data.domain}
-                        </Text>
-                      </View>
-                    </View>
+                    {item.data.title}
+                  </Text> 
                   </View>
                 );
               }}
+              renderHiddenItem={({item}, rowMap) => {
+                return (
+                  <View style={styles.rowBack}>
+                    <Text>Done</Text>
+                    <Text>Delete</Text>
+                  </View>
+                );
+              }
+            }
+              leftOpenValue={75}
+              rightOpenValue={-75}
+
             />}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: 'white',
+		flex: 1
+	},
+	standalone: {
+		marginTop: 30,
+		marginBottom: 30,
+	},
+	standaloneRowFront: {
+		alignItems: 'center',
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+		height: 50,
+	},
+	standaloneRowBack: {
+		alignItems: 'center',
+		backgroundColor: '#8BC645',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		padding: 15
+	},
+	backTextWhite: {
+		color: '#FFF'
+	},
+	rowFront: {
+		alignItems: 'center',
+		backgroundColor: '#CCC',
+		borderBottomColor: 'black',
+		borderBottomWidth: 1,
+		justifyContent: 'center',
+		height: 50,
+	},
+	rowBack: {
+		alignItems: 'center',
+		backgroundColor: '#DDD',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingLeft: 15,
+	},
+	backRightBtn: {
+		alignItems: 'center',
+		bottom: 0,
+		justifyContent: 'center',
+		position: 'absolute',
+		top: 0,
+		width: 75
+	},
+	backRightBtnLeft: {
+		backgroundColor: 'blue',
+		right: 75
+	},
+	backRightBtnRight: {
+		backgroundColor: 'red',
+		right: 0
+	},
+	controls: {
+		alignItems: 'center',
+		marginBottom: 30
+	},
+	switchContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: 5
+	},
+	switch: {
+		alignItems: 'center',
+		borderWidth: 1,
+		borderColor: 'black',
+		paddingVertical: 10,
+		width: Dimensions.get('window').width / 4,
+	}
+});
