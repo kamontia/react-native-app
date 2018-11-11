@@ -9,6 +9,8 @@ import {
   ActivityIndicator,
   Header,
   Container,
+  TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -46,6 +48,14 @@ class HomeScreen extends React.Component {
       });
   }
 
+  _onPressButton () {
+    Alert.alert ('You tapped the button!');
+  }
+
+  _onLongPressButton () {
+    Alert.alert ('You tapped LONG LONG the button!');
+  }
+
   render () {
     const {threds, isLoading} = this.state;
     const {width, height} = Dimensions.get ('window');
@@ -62,19 +72,24 @@ class HomeScreen extends React.Component {
           ? <ActivityIndicator />
           : <SwipeListView
               useFlatList
-              data={this.state.threds}
+              data={this.state.threds.slice (1)}
               renderItem={({item}, rowMap) => {
                 return (
-                  <View style={styles.rowFront}>
-                    <Text
-                      style={{
-                        width: width,
-                        height: 50,
-                      }}
-                    >
-                      {item.data.title}
-                    </Text>
-                  </View>
+                  <TouchableHighlight
+                    onPress={this._onPressButton}
+                    onLongPress={this._onLongPressButton}
+                  >
+                    <View style={styles.rowFront} onPress={this._onPressButton}>
+                      <Text
+                        style={{
+                          width: width,
+                          height: 50,
+                        }}
+                      >
+                        {item.data.title}
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
                 );
               }}
               renderHiddenItem={({item}, rowMap) => {
