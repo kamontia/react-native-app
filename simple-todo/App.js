@@ -10,7 +10,9 @@ import {
   Header,
   Container,
   TouchableHighlight,
+  Modal,
   Alert,
+  Button,
 } from 'react-native';
 
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -26,18 +28,17 @@ class HomeScreen extends React.Component {
     this.state = {
       threds: [],
       isLoading: true,
+      modalVisible: false,
     };
   }
 
+  setModalVisible (visible) {
+    this.setState ({modalVisible: visible});
+  }
+
   componentDidMount () {
-    fetch ('https:/www.reddit.com/r/newsokur/hot.json')
       .then (response => response.json ())
       .then (responseJson => {
-        let threds = responseJson.data.children;
-        threds = threds.map (i => {
-          i.key = i.data.url;
-          return i;
-        });
         this.setState ({
           threds: threds,
           isLoading: false,
@@ -68,6 +69,29 @@ class HomeScreen extends React.Component {
           aligenItems: 'center',
         }}
       >
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert ('Modal has been closed.');
+          }}
+        >
+          <View style={{marginTop: 100}}>
+            <View>
+              <Text>ajdfkajfka;</Text>
+
+              <Button
+                title="Close"
+                color="#841584"
+                accessibilityLabel="Learn more about this purple button"
+                onPress={() => {
+                  this.setModalVisible (!this.state.modalVisible);
+                }}
+              />
+            </View>
+          </View>
+        </Modal>
         {isLoading
           ? <ActivityIndicator />
           : <SwipeListView
@@ -76,7 +100,9 @@ class HomeScreen extends React.Component {
               renderItem={({item}, rowMap) => {
                 return (
                   <TouchableHighlight
-                    onPress={this._onPressButton}
+                    onPress={() => {
+                      this.setModalVisible (true);
+                    }}
                     onLongPress={this._onLongPressButton}
                   >
                     <View style={styles.rowFront} onPress={this._onPressButton}>
