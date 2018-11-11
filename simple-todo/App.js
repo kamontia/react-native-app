@@ -3,16 +3,22 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  FlatList,
   Image,
   Dimensions,
   StyleSheet,
   ActivityIndicator,
+  Header,
+  Container,
 } from 'react-native';
 
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {
+  createStackNavigator,
+  StackActions,
+  NavigationActions,
+} from 'react-navigation';
 
-export default class App extends Component {
+class HomeScreen extends React.Component {
   constructor () {
     super ();
     this.state = {
@@ -42,7 +48,7 @@ export default class App extends Component {
 
   render () {
     const {threds, isLoading} = this.state;
-    const {width} = Dimensions.get ('window');
+    const {width, height} = Dimensions.get ('window');
     console.log (width);
     return (
       <View
@@ -60,14 +66,14 @@ export default class App extends Component {
               renderItem={({item}, rowMap) => {
                 return (
                   <View style={styles.rowFront}>
-                  <Text
-                    style={{
-                      width: width,
-                      height: 50
-                    }}
-                  >
-                    {item.data.title}
-                  </Text> 
+                    <Text
+                      style={{
+                        width: width,
+                        height: 50,
+                      }}
+                    >
+                      {item.data.title}
+                    </Text>
                   </View>
                 );
               }}
@@ -78,89 +84,97 @@ export default class App extends Component {
                     <Text>Delete</Text>
                   </View>
                 );
-              }
-            }
+              }}
               leftOpenValue={75}
               rightOpenValue={-75}
-
             />}
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-	container: {
-		backgroundColor: 'white',
-		flex: 1
-	},
-	standalone: {
-		marginTop: 30,
-		marginBottom: 30,
-	},
-	standaloneRowFront: {
-		alignItems: 'center',
-		backgroundColor: '#fff',
-		justifyContent: 'center',
-		height: 50,
-	},
-	standaloneRowBack: {
-		alignItems: 'center',
-		backgroundColor: '#8BC645',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		padding: 15
-	},
-	backTextWhite: {
-		color: '#FFF'
-	},
-	rowFront: {
-		alignItems: 'center',
-		backgroundColor: '#CCC',
-		borderBottomColor: 'black',
-		borderBottomWidth: 1,
-		justifyContent: 'center',
-		height: 50,
-	},
-	rowBack: {
-		alignItems: 'center',
-		backgroundColor: '#DDD',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingLeft: 15,
-	},
-	backRightBtn: {
-		alignItems: 'center',
-		bottom: 0,
-		justifyContent: 'center',
-		position: 'absolute',
-		top: 0,
-		width: 75
-	},
-	backRightBtnLeft: {
-		backgroundColor: 'blue',
-		right: 75
-	},
-	backRightBtnRight: {
-		backgroundColor: 'red',
-		right: 0
-	},
-	controls: {
-		alignItems: 'center',
-		marginBottom: 30
-	},
-	switchContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		marginBottom: 5
-	},
-	switch: {
-		alignItems: 'center',
-		borderWidth: 1,
-		borderColor: 'black',
-		paddingVertical: 10,
-		width: Dimensions.get('window').width / 4,
-	}
+const styles = StyleSheet.create ({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  standalone: {
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  standaloneRowFront: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    height: 50,
+  },
+  standaloneRowBack: {
+    alignItems: 'center',
+    backgroundColor: '#8BC645',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+  },
+  backTextWhite: {
+    color: '#FFF',
+  },
+  rowFront: {
+    alignItems: 'center',
+    backgroundColor: '#CCC',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+    height: 50,
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: '#DDD',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75,
+  },
+  backRightBtnLeft: {
+    backgroundColor: 'blue',
+    right: 75,
+  },
+  backRightBtnRight: {
+    backgroundColor: 'red',
+    right: 0,
+  },
+  controls: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 5,
+  },
+  switch: {
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    paddingVertical: 10,
+    width: Dimensions.get ('window').width / 4,
+  },
 });
+
+const RootStack = createStackNavigator ({
+  Home: HomeScreen,
+});
+
+export default class App extends React.Component {
+  render () {
+    return <RootStack />;
+  }
+}
