@@ -37,8 +37,14 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount () {
+    fetch ('https://www.reddit.com/r/newsokur/hot.json')
       .then (response => response.json ())
       .then (responseJson => {
+        let threds = responseJson.data.children;
+        threds = threds.map (i => {
+          i.key = i.data.url;
+          return i;
+        });
         this.setState ({
           threds: threds,
           isLoading: false,
