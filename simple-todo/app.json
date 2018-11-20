@@ -1,8 +1,10 @@
 {
+  "name": "simpleTodo",
+  "displayName": "simpleTodo",
   "expo": {
-    "name": "simple-todo",
+    "name": "simpleTodo",
     "description": "This project is really great.",
-    "slug": "simple-todo",
+    "slug": "simpletodo",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": [
