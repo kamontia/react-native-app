@@ -29,11 +29,16 @@ class HomeScreen extends React.Component {
       threds: [],
       isLoading: true,
       modalVisible: false,
+      modalText: '',
     };
   }
 
   setModalVisible (visible) {
     this.setState ({modalVisible: visible});
+  }
+
+  viewModalText (text) {
+    this.setState ({modalText: text});
   }
 
   componentDidMount () {
@@ -75,6 +80,8 @@ class HomeScreen extends React.Component {
           aligenItems: 'center',
         }}
       >
+
+        {/* モーダル表示部分 */}
         <Modal
           animationType="fade"
           transparent={false}
@@ -85,7 +92,7 @@ class HomeScreen extends React.Component {
         >
           <View style={{marginTop: 100}}>
             <View>
-              <Text>ajdfkajfka;</Text>
+              <Text>{this.state.modalText}</Text>
 
               <Button
                 title="Close"
@@ -107,6 +114,7 @@ class HomeScreen extends React.Component {
                 return (
                   <TouchableHighlight
                     onPress={() => {
+                      this.viewModalText (item.data.domain);
                       this.setModalVisible (true);
                     }}
                     onLongPress={this._onLongPressButton}
@@ -126,7 +134,7 @@ class HomeScreen extends React.Component {
               }}
               renderHiddenItem={({item}, rowMap) => {
                 return (
-                  <View style={styles.rowBack}>
+                  <View style={styles.standaloneRowBack}>
                     <Text>Done</Text>
                     <Text>Delete</Text>
                   </View>
@@ -168,7 +176,7 @@ const styles = StyleSheet.create ({
   },
   rowFront: {
     alignItems: 'center',
-    backgroundColor: '#CCC',
+    backgroundColor: '#FFF',
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     justifyContent: 'center',
@@ -176,7 +184,7 @@ const styles = StyleSheet.create ({
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: '#DDD',
+    backgroundColor: '#FF0000',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
