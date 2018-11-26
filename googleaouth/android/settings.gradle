@@ -1,0 +1,3 @@
+rootProject.name = 'googleaouth'
+
+include ':app'
